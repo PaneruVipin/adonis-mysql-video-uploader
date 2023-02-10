@@ -37,7 +37,7 @@ Route.post("posts/*", async ({ request }) => {
     name,
     overwrite: true,
   });
-  return Application.tmpPath("uploads/"+paramURL+"/"+name)
+  return "https://vide0-uploader.onrender.com/uploads/"+paramURL+"/"+name
 });
 
 // Route.post("download", async ({ params, response }) => {
