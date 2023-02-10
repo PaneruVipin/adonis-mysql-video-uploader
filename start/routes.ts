@@ -28,16 +28,16 @@ Route.get("/", async () => {
   return { hello: "world" };
 });
 
-Route.post("posts/*", async ({ request }) => {
+Route.post("post/*", async ({ request }) => {
   const params=request.params() as object
   const paramURL=params?.["*"]?.join("/")
-  const video = request.file("file");
-  const name=new Date().getTime()+ "video.mp4"
-  await video?.move(Application.tmpPath("uploads/"+paramURL), {
+  const file = request.file("file");
+  const name=new Date().getTime()+ "."+file?.extname
+  await file?.move(Application.tmpPath("uploads/"+paramURL), {
     name,
     overwrite: true,
   });
-  return "https://vide0-uploader.onrender.com/uploads/"+paramURL+"/"+name
+  return {URL:"https://vide0-uploader.onrender.com/uploads/"+paramURL+"/"+name}
 });
 
 // Route.post("download", async ({ params, response }) => {
