@@ -32,10 +32,12 @@ Route.post("posts/*", async ({ request }) => {
   const params=request.params() as object
   const paramURL=params?.["*"]?.join("/")
   const video = request.file("file");
+  const name=new Date().getTime()+ "video.mp4"
   await video?.move(Application.tmpPath("uploads/"+paramURL), {
-    name:new Date().getTime()+ "video.mp4",
+    name,
     overwrite: true,
   });
+  return Application.tmpPath("uploads/"+paramURL+"/"+name)
 });
 
 // Route.post("download", async ({ params, response }) => {
