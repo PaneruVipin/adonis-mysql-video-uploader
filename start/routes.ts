@@ -22,22 +22,24 @@ import Route from "@ioc:Adonis/Core/Route";
 import Application from "@ioc:Adonis/Core/Application";
 // import { extname } from 'path'
 /**
- * 
+ *
  */
 Route.get("/", async () => {
   return { hello: "world" };
 });
 
 Route.post("post/*", async ({ request }) => {
-  const params=request.params() as object
-  const paramURL=params?.["*"]?.join("/")
+  const BASE_URL = request.protocol() + "://" + request.host();
+  const path = request.url();
   const file = request.file("file");
-  const name=new Date().getTime()+ "."+file?.extname
-  await file?.move(Application.tmpPath("uploads/"+paramURL), {
+  const name = new Date().getTime() + "." + file?.extname;
+  await file?.move(Application.tmpPath(path), {
     name,
     overwrite: true,
   });
-  return {URL:"https://vide0-uploader.onrender.com/uploads/"+paramURL+"/"+name}
+  return {
+    URL: BASE_URL + path+"/" + name,
+  };
 });
 
 // Route.post("download", async ({ params, response }) => {
@@ -49,5 +51,3 @@ Route.post("post/*", async ({ request }) => {
 //   // console.log(Application.tmpPath());
 //   // return "File does not exist";
 // });
-
-
